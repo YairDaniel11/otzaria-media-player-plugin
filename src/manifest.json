@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "id": "com.yairdaniel.media-player",
+  "name": "נגן מדיה",
+  "version": "1.0.5",
+  "description": "נגן אודיו ווידאו מתקדם: פלייליסט, מהירויות ניגון, חזרה ושאפל, אקולייזר, זיכרון מיקום, קיצורי מקלדת ועצירה/המשך ניגון ברקע במעבר במסכי אוצריא",
+  "author": "אנונימי",
+  "stability": "stable",
+  "entrypoint": "index.html",
+  "minAppVersion": "0.9.93",
+  "sdkVersion": "1.x",
+  "type": "webapp",
+  "category": "Media",
+  "permissions": [
+    "events.subscribe:theme.changed",
+    "events.subscribe:navigation.changed",
+    "plugin.storage.read",
+    "plugin.storage.write"
+  ],
+  "contributes": {
+    "toolTab": {
+      "title": "נגן מדיה",
+      "order": 250,
+      "defaultPinned": true,
+      "iconName": "headphones_24_regular"
+    }
+  }
+}
