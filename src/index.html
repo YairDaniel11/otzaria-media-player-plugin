@@ -289,6 +289,77 @@
   /* scrollbars */
   .playlist-list::-webkit-scrollbar, .overlay-panel::-webkit-scrollbar { width: 8px; }
   .playlist-list::-webkit-scrollbar-thumb, .overlay-panel::-webkit-scrollbar-thumb { background: var(--color-outline-variant); border-radius: 4px; }
+
+  /* ---------- Responsive / Android ---------- */
+  html, body { overflow-x: hidden; }
+  @supports (height: 100dvh) { .app { height: 100dvh; } }
+  .topbar { padding-top: max(8px, env(safe-area-inset-top)); padding-left: max(12px, env(safe-area-inset-left)); padding-right: max(12px, env(safe-area-inset-right)); }
+  .transport { padding-bottom: max(10px, env(safe-area-inset-bottom)); }
+
+  @media (max-width: 700px) {
+    .main { position: relative; }
+    .playlist-panel {
+      position: absolute; top: 0; bottom: 0; right: 0; z-index: 50;
+      width: min(320px, 86vw); flex: 0 0 auto;
+      box-shadow: 0 0 24px rgba(0,0,0,.25);
+    }
+    .playlist-panel.collapsed { width: min(320px, 86vw); flex-basis: auto; transform: translateX(100%); box-shadow: none; }
+    .transport { padding-left: 10px; padding-right: 10px; }
+    .transport-row2 { grid-template-columns: minmax(0,1fr); gap: 4px; }
+    .transport-row2 .center-controls { order: -1; }
+    .transport-row2 .row2-left { order: 1; }
+    .transport-row2 .row2-right { order: 2; justify-content: center; flex-wrap: wrap; }
+    .volume-wrap { width: auto; }
+    .volume-wrap input[type=range] { width: 70px; }
+    .anchor-fix, .popover-anchor { position: static; }
+    .popover, .popover.open {
+      position: fixed; left: 8px; right: 8px; width: auto; max-width: none;
+      bottom: calc(150px + env(safe-area-inset-bottom)); transform: none; max-height: 55vh; overflow-y: auto;
+    }
+    .eq-popover { width: auto; }
+    .now-playing-cover canvas { width: min(260px, 80vw); }
+    .resume-prompt { bottom: calc(150px + env(safe-area-inset-bottom)); flex-wrap: wrap; justify-content: center; }
+    .resume-prompt span { white-space: normal; }
+    .toast { bottom: calc(150px + env(safe-area-inset-bottom)); max-width: 90vw; }
+    .overlay-panel { top: max(10px, env(safe-area-inset-top)); bottom: max(12px, env(safe-area-inset-bottom)); }
+  }
+
+  @media (pointer: coarse) {
+    .icon-btn { width: 44px; height: 44px; }
+    .icon-btn.big { width: 48px; height: 48px; }
+    .icon-btn.xbig { width: 58px; height: 58px; }
+    .stage-tools .icon-btn { width: 44px; height: 44px; }
+    .rate-badge, .speed-btn { padding: 8px 10px; }
+    .popover .opt { padding: 12px 10px; min-height: 44px; align-items: center; }
+    .radio-opt { min-height: 44px; }
+    .radio-opt input { width: 22px; height: 22px; }
+    .btn-secondary { min-height: 44px; }
+    .eq-presets button { padding: 10px 12px; min-height: 44px; }
+    .eq-band input[type=range] { width: 44px; }
+    .mini-num-input { min-height: 44px; width: 64px; }
+    .track-item { padding: 10px 8px; min-height: 48px; }
+    .seek-wrap { height: 44px; }
+    .seek-track { top: 20px; }
+    .seek-input { height: 44px; }
+    input[type=range] { min-height: 32px; }
+    .repeat-one-badge, .sleep-badge, .skip-badge { }
+  }
+
+  @media (pointer: coarse), (hover: none) {
+    .stage-tools { opacity: 1; }
+    .track-item .actions { display: flex; }
+  }
+
+  @media (max-width: 700px) {
+    input, select, textarea, .mini-num-input { font-size: 16px; }
+  }
+
+  @media (max-height: 480px) and (orientation: landscape) {
+    .topbar { padding-top: 2px; padding-bottom: 2px; }
+    .popover, .popover.open { bottom: calc(120px + env(safe-area-inset-bottom)); }
+    .now-playing-cover .art { width: 80px; height: 80px; }
+    .now-playing-cover { gap: 8px; }
+  }
 </style>
 </head>
 <body>
@@ -1409,6 +1480,7 @@
   btnShuffle.addEventListener('click', toggleShuffle);
   btnRepeat.addEventListener('click', cycleRepeat);
   btnAB.addEventListener('click', toggleAB);
+  if (window.matchMedia && matchMedia('(max-width: 700px)').matches) playlistPanel.classList.add('collapsed');
   $('btnTogglePlaylist').addEventListener('click', () => playlistPanel.classList.toggle('collapsed'));
   $('btnClearList').addEventListener('click', () => { if (confirm('לנקות את כל הפלייליסט?')) clearPlaylist(); });
   $('btnShuffleList').addEventListener('click', shufflePlaylistOrder);
